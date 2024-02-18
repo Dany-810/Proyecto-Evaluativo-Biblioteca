@@ -1,0 +1,178 @@
+import pickle
+
+class Biblioteca:
+    def __init__(self):
+        self.libros = {}  # Diccionario para almacenar información de libros
+        self.usuarios = set()  # Conjunto para almacenar nombres de usuarios
+
+    def agregar_libro(self, titulo, autor):
+        if titulo in self.libros:
+            # Si el libro ya existe, aumenta su cantidad en uno
+            self.libros[titulo] += 1
+        else:
+            # Si el libro no existe, agrégalo con cantidad inicial de 1
+            self.libros[titulo] = 1
+
+    def mostrar_libros(self):
+        print("Lista de libros:")
+        for titulo, cantidad in self.libros.items():
+            print(f"{titulo} (Cantidad: {cantidad})")
+
+    def prestar_libro(self, titulo, usuario):
+        if titulo in self.libros and self.libros[titulo] > 0:
+            # Verifica si el libro está disponible
+            self.libros[titulo] -= 1
+            print(f"Libro '{titulo}' prestado a {usuario}.")
+        else:
+            print(f"El libro '{titulo}' no está disponible.")
+
+    def registrar_usuario(self, usuario):
+        self.usuarios.add(usuario)
+        print(f"Usuario '{usuario}' registrado.")
+
+    def guardar_datos(self, archivo):
+        with open(archivo, 'wb') as f:
+            pickle.dump((self.libros, self.usuarios), f)
+        print(f"Datos guardados en {archivo}.")
+
+    def cargar_datos(self, archivo):
+        try:
+            with open(archivo, 'rb') as f:
+                self.libros, self.usuarios = pickle.load(f)
+                print(f"Datos cargados desde {archivo}.")
+        except FileNotFoundError:
+            print(f"El archivo {archivo} no existe. Inicializando biblioteca vacía.")
+
+    def listar_usuarios(self):
+        print("Usuarios registrados:")
+        for usuario in self.usuarios:
+            print(usuario)
+
+    def listar_libros_usuario(self, usuario):
+        print(f"Libros prestados a {usuario}:")
+        for titulo, cantidad in self.libros.items():
+            if cantidad < 1:
+                print(titulo)
+
+    def devolver_libro(self, titulo, usuario):
+        if titulo in self.libros:
+            self.libros[titulo] += 1
+            print(f"Libro '{titulo}' devuelto por {usuario}.")
+        else:
+            print(f"El libro '{titulo}' no existe en la biblioteca.")
+
+# Crear una instancia de la clase Biblioteca
+mi_biblioteca = Biblioteca()
+
+# Añadir libros a la biblioteca
+mi_biblioteca.agregar_libro("El Principito", "Antoine de Saint-Exupéry")
+mi_biblioteca.agregar_libro("1984", "George Orwell")
+mi_biblioteca.agregar_libro("La sombra del viento", "Carlos Ruiz Zafón")
+
+# Mostrar los libros en la biblioteca para verificar que se han añadido
+mi_biblioteca.mostrar_libros()
+
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    mi_biblioteca = Biblioteca()
+    mi_biblioteca.agregar_libro("Cien años de soledad", "Gabriel García Márquez")
+    mi_biblioteca.agregar_libro("Don Quijote de la Mancha", "Miguel de Cervantes")
+    mi_biblioteca.registrar_usuario("Juan")
+    mi_biblioteca.prestar_libro("Cien años de soledad", "Juan")
+    mi_biblioteca.mostrar_libros()
+    mi_biblioteca.guardar_datos("datos_biblioteca.pkl")
+    mi_biblioteca.cargar_datos("datos_biblioteca.pkl")
+    mi_biblioteca.listar_usuarios()
+    mi_biblioteca.listar_libros_usuario("Juan")
+    mi_biblioteca.devolver_libro("Cien años de soledad", "Juan")
+import pickle
+
+class Biblioteca:
+    def __init__(self):
+        self.libros = {}  # Diccionario para almacenar información de libros
+        self.usuarios = set()  # Conjunto para almacenar nombres de usuarios
+
+    def mostrar_menu(self):
+        print("\n--- Menú de Biblioteca ---")
+        print("1. Agregar Libro")
+        print("2. Mostrar Libros")
+        print("3. Prestar Libro")
+        print("4. Registrar Usuario")
+        print("5. Listar Usuarios")
+        print("6. Listar Libros de Usuario")
+        print("7. Devolver Libro")
+        print("8. Guardar Datos")
+        print("9. Cargar Datos")
+        print("0. Salir")
+
+    def ejecutar(self):
+        while True:
+            self.mostrar_menu()
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == "1":
+                titulo = input("Ingrese el título del libro: ")
+                autor = input("Ingrese el autor del libro: ")
+                self.agregar_libro(titulo, autor)
+            elif opcion == "2":
+                self.mostrar_libros()
+            elif opcion == "3":
+                titulo = input("Ingrese el título del libro a prestar: ")
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.prestar_libro(titulo, usuario)
+            elif opcion == "4":
+                usuario = input("Ingrese el nombre del usuario a registrar: ")
+                self.registrar_usuario(usuario)
+            elif opcion == "5":
+                self.listar_usuarios()
+            elif opcion == "6":
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.listar_libros_usuario(usuario)
+            elif opcion == "7":
+                titulo = input("Ingrese el título del libro a devolver: ")
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.devolver_libro(titulo, usuario)
+            elif opcion == "8":
+                archivo = input("Ingrese el nombre del archivo para guardar los datos: ")
+                self.guardar_datos(archivo)
+            elif opcion == "9":
+                archivo = input("Ingrese el nombre del archivo para cargar los datos: ")
+                self.cargar_datos(archivo)
+            elif opcion == "0":
+                print("¡Hasta luego!")
+                break
+            else:
+                print("Opción inválida. Intente nuevamente.")
+
+    # Resto de las funciones (como en el ejemplo anterior)...
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    mi_biblioteca = Biblioteca()
+    mi_biblioteca.ejecutar()
+import pickle
+
+class Biblioteca:
+    def __init__(self):
+        self.libros = {}  # Diccionario para almacenar información de libros
+        self.usuarios = set()  # Conjunto para almacenar nombres de usuarios
+
+    # Resto de las funciones (como en el ejemplo anterior)...
+
+    def registrar_usuario(self, usuario):
+        self.usuarios.add(usuario)
+        print(f"Usuario '{usuario}' registrado.")
+
+    # Resto de las funciones (como en el ejemplo anterior)...
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    mi_biblioteca = Biblioteca()
+    mi_biblioteca.registrar_usuario("Juan")  # Ejemplo de registro de usuario
+    mi_biblioteca.ejecutar()
+
+# Ejemplo de uso con menú interactivo
+if __name__ == "__main__":
+    mi_biblioteca = Biblioteca()
+    mi_biblioteca.ejecutar()
