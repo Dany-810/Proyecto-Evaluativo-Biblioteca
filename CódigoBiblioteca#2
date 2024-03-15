@@ -1,0 +1,125 @@
+import pickle
+
+class Biblioteca:
+    def __init__(self):
+        # Inicialización de la biblioteca con un diccionario para libros y un conjunto para usuarios
+        self.libros = {}
+        self.usuarios = set()
+
+    def agregar_libro(self, titulo, autor):
+        # Agregar un libro al inventario o incrementar su cantidad si ya existe
+        self.libros[titulo] = self.libros.get(titulo, 0) + 1
+        print(f"Libro '{titulo}' de '{autor}' agregado a la biblioteca.")
+
+    def mostrar_libros(self):
+        # Mostrar la lista de libros y su cantidad en la biblioteca
+        print("Lista de libros:")
+        for titulo, cantidad in self.libros.items():
+            print(f"{titulo} (Cantidad: {cantidad})")
+
+    def prestar_libro(self, titulo, usuario):
+        # Prestar un libro a un usuario si está disponible en la biblioteca
+        if self.libros.get(titulo, 0) > 0:
+            self.libros[titulo] -= 1
+            print(f"Libro '{titulo}' prestado a {usuario}.")
+        else:
+            print(f"El libro '{titulo}' no está disponible.")
+
+    def registrar_usuario(self, usuario):
+        # Registrar un nuevo usuario en la biblioteca
+        self.usuarios.add(usuario)
+        print(f"Usuario '{usuario}' registrado.")
+
+    def listar_usuarios(self):
+        # Mostrar la lista de usuarios registrados en la biblioteca
+        print("Usuarios registrados:")
+        for usuario in self.usuarios:
+            print(usuario)
+
+    def listar_libros_usuario(self, usuario):
+        # Mostrar los libros prestados a un usuario específico
+        print(f"Libros prestados a {usuario}:")
+        for titulo, cantidad in self.libros.items():
+            if cantidad < 1:
+                print(titulo)
+
+    def devolver_libro(self, titulo, usuario):
+        # Devolver un libro prestado por un usuario
+        if titulo in self.libros:
+            self.libros[titulo] += 1
+            print(f"Libro '{titulo}' devuelto por {usuario}.")
+        else:
+            print(f"El libro '{titulo}' no existe en la biblioteca.")
+
+    def guardar_datos(self, archivo):
+        # Guardar los datos de la biblioteca en un archivo usando pickle
+        with open(archivo, 'wb') as f:
+            pickle.dump((self.libros, self.usuarios), f)
+        print(f"Datos guardados en {archivo}.")
+
+    def cargar_datos(self, archivo):
+        # Cargar los datos de la biblioteca desde un archivo usando pickle
+        try:
+            with open(archivo, 'rb') as f:
+                self.libros, self.usuarios = pickle.load(f)
+            print(f"Datos cargados desde {archivo}.")
+        except FileNotFoundError:
+            print(f"El archivo {archivo} no existe. Inicializando biblioteca vacía.")
+
+    def mostrar_menu(self):
+        # Mostrar el menú de opciones para el usuario
+        print("\n--- Menú de Biblioteca ---")
+        print("1. Agregar Libro")
+        print("2. Mostrar Libros")
+        print("3. Prestar Libro")
+        print("4. Registrar Usuario")
+        print("5. Listar Usuarios")
+        print("6. Listar Libros de Usuario")
+        print("7. Devolver Libro")
+        print("8. Guardar Datos")
+        print("9. Cargar Datos")
+        print("0. Salir")
+
+    def ejecutar(self):
+        # Función principal para ejecutar el programa de la biblioteca
+        while True:
+            self.mostrar_menu()
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == "1":
+                titulo = input("Ingrese el título del libro: ")
+                autor = input("Ingrese el autor del libro: ")
+                self.agregar_libro(titulo, autor)
+            elif opcion == "2":
+                self.mostrar_libros()
+            elif opcion == "3":
+                titulo = input("Ingrese el título del libro a prestar: ")
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.prestar_libro(titulo, usuario)
+            elif opcion == "4":
+                usuario = input("Ingrese el nombre del usuario a registrar: ")
+                self.registrar_usuario(usuario)
+            elif opcion == "5":
+                self.listar_usuarios()
+            elif opcion == "6":
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.listar_libros_usuario(usuario)
+            elif opcion == "7":
+                titulo = input("Ingrese el título del libro a devolver: ")
+                usuario = input("Ingrese el nombre del usuario: ")
+                self.devolver_libro(titulo, usuario)
+            elif opcion == "8":
+                archivo = input("Ingrese el nombre del archivo para guardar los datos: ")
+                self.guardar_datos(archivo)
+            elif opcion == "9":
+                archivo = input("Ingrese el nombre del archivo para cargar los datos: ")
+                self.cargar_datos(archivo)
+            elif opcion == "0":
+                print("¡Hasta luego!")
+                break
+            else:
+                print("Opción inválida. Intente nuevamente.")
+
+if __name__ == "__main__":
+    mi_biblioteca = Biblioteca()
+    mi_biblioteca.ejecutar()
