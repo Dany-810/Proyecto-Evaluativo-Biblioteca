@@ -145,7 +145,7 @@ class Biblioteca:
             else:
                 print("Opción inválida. Intente nuevamente.")
 
-    # Resto de las funciones (como en el ejemplo anterior)...
+
 
 # Ejemplo de uso
 if __name__ == "__main__":
@@ -158,13 +158,11 @@ class Biblioteca:
         self.libros = {}  # Diccionario para almacenar información de libros
         self.usuarios = set()  # Conjunto para almacenar nombres de usuarios
 
-    # Resto de las funciones (como en el ejemplo anterior)...
 
-    def registrar_usuario(self, usuario):
+def registrar_usuario(self, usuario):
         self.usuarios.add(usuario)
         print(f"Usuario '{usuario}' registrado.")
 
-    # Resto de las funciones (como en el ejemplo anterior)...
 
 # Ejemplo de uso
 if __name__ == "__main__":
